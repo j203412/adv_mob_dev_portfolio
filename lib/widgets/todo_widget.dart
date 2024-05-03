@@ -12,13 +12,7 @@ class TodoWidget extends StatefulWidget {
 }
 
 class _TodoWidgetState extends State<TodoWidget> {
-  bool? isChecked;
-
-  @override
-  void initState() {
-    super.initState();
-    isChecked = widget.todo.completed;
-  }
+  // bool? isChecked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -68,18 +62,35 @@ class _TodoWidgetState extends State<TodoWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Checkbox(
-                      value: isChecked,
+                      value: widget.todo.completed,
                       onChanged: (bool? value) {
                         setState(() {
-                          isChecked = value!;
+                          widget.todo.completed = value!;
                           Provider.of<TodoList>(context, listen: false)
                               .updateTodo(widget.todo);
                         });
                       }),
                   IconButton(
                       onPressed: () {
-                        Provider.of<TodoList>(context, listen: false)
-                            .remove(widget.todo);
+                        AlertDialog(
+                          title: const Text('Delete Todo?'),
+                          content: const SingleChildScrollView(
+                            child: ListBody(
+                              children: <Widget>[
+                                Text('This action cannot be undone.'),
+                              ],
+                            ),
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              child: const Text('Delete'),
+                              onPressed: () {
+                                Provider.of<TodoList>(context, listen: false)
+                                    .remove(widget.todo);
+                              },
+                            ),
+                          ],
+                        );
                       },
                       icon: const Icon(Icons.delete)),
                 ],

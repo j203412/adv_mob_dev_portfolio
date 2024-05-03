@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
           return FutureBuilder(
             // Refreshes self when something changes
             future: model
-                .testRefresh(), // Calls the refresh() -> browse() method in chosen data source
+                .refresh(), // Calls the refresh() -> browse() method in chosen data source
             builder: (context, snapshot) {
               // Snapshot refers to the return data of the called method
               if (snapshot.hasError) {

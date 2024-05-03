@@ -10,7 +10,7 @@ class Todo {
   @HiveField(2)
   final String description;
   @HiveField(3)
-  final bool completed;
+  late bool completed;
 
   Todo(
       {required this.id,

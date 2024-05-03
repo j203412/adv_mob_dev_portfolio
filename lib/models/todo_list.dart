@@ -41,12 +41,7 @@ class TodoList extends ChangeNotifier {
 
   Future<List<Todo>> refresh() async {
     _todos = await _datasource.browse();
-    notifyListeners();
-    return _todos;
-  }
-
-  Future<List<Todo>> testRefresh() async {
-    _todos = await _datasource.browse();
+    // notifyListeners();
     return _todos;
   }
 }
