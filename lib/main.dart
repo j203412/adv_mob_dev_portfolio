@@ -60,7 +60,6 @@ class _HomePageState extends State<HomePage> {
             future: model
                 .testRefresh(), // Calls the refresh() -> browse() method in chosen data source
             builder: (context, snapshot) {
-              // TODO: snapshot is always empty
               // Snapshot refers to the return data of the called method
               if (snapshot.hasError) {
                 return const Icon(Icons.error);
@@ -112,13 +111,14 @@ class _HomePageState extends State<HomePage> {
                   controller: _controlDescription,
                 ),
                 Padding(
-                  padding: EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(5),
                   child: ElevatedButton(
                       child: const Text('Submit'),
                       onPressed: () {
                         setState(() {
                           Provider.of<TodoList>(context, listen: false).add(
                               Todo(
+                                  id: '',
                                   name: _controlName.text,
                                   description: _controlDescription.text));
                         });

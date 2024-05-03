@@ -12,7 +12,13 @@ class TodoWidget extends StatefulWidget {
 }
 
 class _TodoWidgetState extends State<TodoWidget> {
-  bool? isChecked = false;
+  bool? isChecked;
+
+  @override
+  void initState() {
+    super.initState();
+    isChecked = widget.todo.completed;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,15 +64,26 @@ class _TodoWidgetState extends State<TodoWidget> {
                     .bodySmall!
                     .copyWith(fontWeight: FontWeight.w500),
               ),
-              Checkbox(
-                  value: isChecked,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      Provider.of<TodoList>(context, listen: false)
-                          .updateTodo(widget.todo);
-                      isChecked = value;
-                    });
-                  }),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Checkbox(
+                      value: isChecked,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          isChecked = value!;
+                          Provider.of<TodoList>(context, listen: false)
+                              .updateTodo(widget.todo);
+                        });
+                      }),
+                  IconButton(
+                      onPressed: () {
+                        Provider.of<TodoList>(context, listen: false)
+                            .remove(widget.todo);
+                      },
+                      icon: const Icon(Icons.delete)),
+                ],
+              )
             ],
           ),
         ],

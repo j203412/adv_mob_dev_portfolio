@@ -20,18 +20,29 @@ class RemoteAPIDataSource implements IDataSource {
     });
   }
 
+  // @override
+  // Future<bool> add(Todo model) async {
+  //   await initTask;
+  //   try {
+  //     DatabaseReference data = database
+  //         .ref()
+  //         .child('todos')
+  //         .push(); // Get database reference (data location)
+  //     Map<String, dynamic> newMap =
+  //         model.toMap(); // Instantiate passed model as map
+  //     newMap.remove('id'); // Remove id from map
+  //     data.set(newMap); // Set new map to database
+  //     return true;
+  //   } catch (e) {
+  //     return false;
+  //   }
+  // }
+
   @override
   Future<bool> add(Todo model) async {
     await initTask;
     try {
-      DatabaseReference data = database
-          .ref()
-          .child('todos')
-          .push(); // Get database reference (data location)
-      Map<String, dynamic> newMap =
-          model.toMap(); // Instantiate passed model as map
-      newMap.remove('id'); // Remove id from map
-      data.set(newMap); // Set new map to database
+      await database.ref('todos').push().set(model.toMap());
       return true;
     } catch (e) {
       return false;
@@ -81,7 +92,8 @@ class RemoteAPIDataSource implements IDataSource {
   Future<bool> edit(Todo model) async {
     await initTask;
     try {
-      await database.ref().child('todos').child(model.id).set(model.toMap());
+      await database.ref().child('todos').child(model.id).set(
+          model.toMap()); // TODO: 'completed' value does not return updated
       return true;
     } catch (e) {
       log("Error editing todo: $e");

@@ -13,7 +13,7 @@ class Todo {
   final bool completed;
 
   Todo(
-      {this.id,
+      {required this.id,
       required this.name,
       required this.description,
       this.completed = false});
