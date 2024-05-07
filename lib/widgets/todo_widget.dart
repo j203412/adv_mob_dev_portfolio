@@ -12,7 +12,42 @@ class TodoWidget extends StatefulWidget {
 }
 
 class _TodoWidgetState extends State<TodoWidget> {
-  // bool? isChecked = false;
+  showConfirmDelete(BuildContext context) {
+
+  Widget cancelButton = TextButton(
+    child: const Text("Cancel"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    }
+  );
+
+  Widget confirmDeleteButton = TextButton(
+    child: const Text("Delete", style: TextStyle(color: Colors.red)),
+    
+    onPressed: () {
+      Provider.of<TodoList>(context, listen: false)
+      .remove(widget.todo);
+      Navigator.of(context).pop();
+},
+  );
+
+  AlertDialog alert = AlertDialog(
+    title: const Text("Delete Todo?"),
+    content: const Text("This action cannot be undone."),
+    actions: [
+      cancelButton,
+      confirmDeleteButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -72,27 +107,11 @@ class _TodoWidgetState extends State<TodoWidget> {
                       }),
                   IconButton(
                       onPressed: () {
-                        AlertDialog(
-                          title: const Text('Delete Todo?'),
-                          content: const SingleChildScrollView(
-                            child: ListBody(
-                              children: <Widget>[
-                                Text('This action cannot be undone.'),
-                              ],
-                            ),
-                          ),
-                          actions: <Widget>[
-                            TextButton(
-                              child: const Text('Delete'),
-                              onPressed: () {
-                                Provider.of<TodoList>(context, listen: false)
-                                    .remove(widget.todo);
-                              },
-                            ),
-                          ],
-                        );
+                        showConfirmDelete(context);
                       },
-                      icon: const Icon(Icons.delete)),
+                      icon: const Icon(Icons.delete),
+                      highlightColor: Colors.red,
+                      ),
                 ],
               )
             ],
