@@ -43,6 +43,7 @@ class SQLDataSource implements IDataSource {
     Map<String, dynamic> map = model.toMap();
     if (map.containsKey(model.id)) {
       await map.remove(model);
+      await database.delete('todos', where: 'id = ${model.id}');
       return true;
     } else {
       return false;
@@ -54,6 +55,7 @@ class SQLDataSource implements IDataSource {
     Map<String, dynamic> map = model.toMap();
     if (map.containsKey(model.id)) {
       await map.update(model.id, model as Function(dynamic value));
+      await database.update('todos', map, where: 'id = ${model.id}');
       return true;
     } else {
       return false;

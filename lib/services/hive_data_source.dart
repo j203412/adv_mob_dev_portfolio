@@ -4,59 +4,46 @@ import 'package:hive_flutter/adapters.dart';
 
 class HiveDataSource implements IDataSource {
   late final Future init;
+  late final Box<Todo> todosBox;
+
+  HiveDataSource() {
+    init = initialise();
+  }
 
   Future<void> initialise() async {
     await Hive.initFlutter();
     Hive.registerAdapter(TodoAdapter());
-
-    // ignore: unused_element, non_constant_identifier_names
-    HiveDataSource() {
-      init = initialise();
-    }
+    todosBox = await Hive.openBox('todos');
   }
 
   @override
   Future<bool> add(Todo model) async {
     await init;
-    Box<Todo> box = Hive.box('todos');
-    await box.add(model);
+    await todosBox.add(model);
     return true;
   }
 
   @override
   Future<List<Todo>> browse() async {
-    Box<Todo> box = Hive.box('todos');
-    return box.values.toList().cast();
+    await init;
+    return todosBox.values.toList().cast();
   }
 
   @override
   Future<bool> delete(Todo model) async {
-    final box = await Hive.openBox('todos');
-    try {
-      if (model.id != null) {
-        await box.delete(model);
-        return true;
-      } else {
-        return false;
-      }
-    } finally {
-      await box.close();
-    }
+    await init;
+    await todosBox.delete(model.key);
+    return true;
   }
 
   @override
   Future<bool> edit(Todo model) async {
-    @override
-    final box = await Hive.openBox('todos');
-    try {
-      if (box.containsKey(model.id)) {
-        await box.put(model.id, model);
-        return true;
-      } else {
-        return false;
-      }
-    } finally {
-      await box.close();
+    await init;
+    if (todosBox.containsKey(model.key)) {
+      await todosBox.put(model.key, model);
+      return true;
+    } else {
+      return false;
     }
   }
 

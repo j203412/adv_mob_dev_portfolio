@@ -2,7 +2,7 @@ import '../util.dart' as util;
 import 'package:hive/hive.dart';
 
 @HiveType(typeId: 0)
-class Todo {
+class Todo extends HiveObject{
   @HiveField(0)
   final dynamic id;
   @HiveField(1)
@@ -36,15 +36,6 @@ class Todo {
         completed: util.getBool(map['completed']));
   }
 
-  // factory Todo.fromMap(Map<String, dynamic> map) {
-  //   bool completed = map['completed'] is int
-  //       ? map['completed'] == 0
-  //           ? false
-  //           : false
-  //       : map['completed'];
-  //   return Todo(map['id'], map['name'], map['description'], completed);
-  // }
-
   factory Todo.fromJson(Map<String, dynamic> json) {
     return Todo(
       id: json['id'],
@@ -64,10 +55,10 @@ class TodoAdapter extends TypeAdapter<Todo> {
   @override
   Todo read(BinaryReader reader) {
     return Todo(
-        id: reader.read(0),
-        name: reader.read(1),
-        description: reader.read(2),
-        completed: reader.read(3));
+        id: reader.read(),
+        name: reader.read(),
+        description: reader.read(),
+        completed: reader.read());
   }
 
   @override
