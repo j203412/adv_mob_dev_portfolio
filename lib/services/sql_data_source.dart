@@ -19,8 +19,7 @@ class SQLDataSource implements IDataSource {
             'CREATE TABLE IF NOT EXISTS todos(id INTEGER PRIMARY KEY, name TEXT, description TEXT, completed INTEGER)');
       },
       version: 1,
-    );
-  }
+    );}
 
   @override
   Future<bool> add(Todo model) async {
@@ -41,25 +40,17 @@ class SQLDataSource implements IDataSource {
   @override
   Future<bool> delete(Todo model) async {
     Map<String, dynamic> map = model.toMap();
-    if (map.containsKey(model.id)) {
-      await map.remove(model);
-      await database.delete('todos', where: 'id = ${model.id}');
-      return true;
-    } else {
-      return false;
-    }
+    await map.remove(model);
+    await database.delete('todos', where: 'id = ${model.id}');
+    return true;
   }
 
   @override
-  Future<bool> edit(Todo model) async {
+  Future<bool> edit(Todo model) async { // TODO: Value does not change
     Map<String, dynamic> map = model.toMap();
-    if (map.containsKey(model.id)) {
-      await map.update(model.id, model as Function(dynamic value));
-      await database.update('todos', map, where: 'id = ${model.id}');
-      return true;
-    } else {
-      return false;
-    }
+    map.update('completed', (value) => model.completed);
+    await database.update('todos', map, where: 'id = ${model.id}');
+    return true;
   }
 
   @override

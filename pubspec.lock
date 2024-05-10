@@ -320,6 +320,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.2"
+  sembast:
+    dependency: "direct main"
+    description:
+      name: sembast
+      sha256: dbe19600cff55d43f19405be79138c3fd2c08a87b0b152b18609b9427d113a64
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.7.1"
   sky_engine:
     dependency: transitive
     description: flutter
