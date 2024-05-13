@@ -120,7 +120,7 @@ class _HomePageState extends State<HomePage> {
                               Todo(
                                   id: '',
                                   name: _controlName.text,
-                                  description: _controlDescription.text));
+                                  description: _controlDescription.text,));
                         });
                         Navigator.pop(context);
                       }),

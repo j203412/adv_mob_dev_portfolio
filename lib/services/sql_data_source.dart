@@ -46,10 +46,10 @@ class SQLDataSource implements IDataSource {
   }
 
   @override
-  Future<bool> edit(Todo model) async { // TODO: Value does not change
+  Future<bool> edit(Todo model) async {
     Map<String, dynamic> map = model.toMap();
-    map.update('completed', (value) => model.completed);
-    await database.update('todos', map, where: 'id = ${model.id}');
+    map['completed'] = model.completed ? 1 : 0;
+    await database.update('todos', map, where: 'id = ?', whereArgs: [model.id]);
     return true;
   }
 

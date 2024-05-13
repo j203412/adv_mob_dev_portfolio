@@ -13,7 +13,13 @@
             "-d",
             "chrome"
             ]
-            }
+            },
+        {
+            "name": "Debug",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "debug"
+        },
         {
             "name": "adv_mob_dev_portfolio (profile mode)",
             "request": "launch",

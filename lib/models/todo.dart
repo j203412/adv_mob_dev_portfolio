@@ -16,7 +16,7 @@ class Todo extends HiveObject{
       {required this.id,
       required this.name,
       required this.description,
-      this.completed = false});
+      this.completed = false,});
 
   Map<String, dynamic> toMap() {
     // Map is a dictionary (key/value pair).
@@ -28,13 +28,14 @@ class Todo extends HiveObject{
     };
   }
 
-  factory Todo.fromMap(Map<String, dynamic> map) {
-    return Todo(
-        id: map['id'],
-        name: map['name'],
-        description: map['description'],
-        completed: util.getBool(map['completed']));
-  }
+ factory Todo.fromMap(Map<String, dynamic> map) {
+  return Todo(
+    id: map['id'],
+    name: map['name'],
+    description: map['description'],
+    completed: map['completed'] == 1,
+  );
+}
 
   factory Todo.fromJson(Map<String, dynamic> json) {
     return Todo(

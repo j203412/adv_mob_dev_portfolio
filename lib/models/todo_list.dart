@@ -6,14 +6,7 @@ import 'todo.dart';
 
 // Managages the state of the todos.
 class TodoList extends ChangeNotifier {
-  // List<Todo> _todos = [
-  //   Todo(id: 1, name: "Do Homework", description: "Times Tables"),
-  //   Todo(id: 2, name: "Git Gud", description: "Do better", completed: true),
-  //   Todo(
-  //       id: 3,
-  //       name: "Commit corporate espionage",
-  //       description: "Zac the corporate spy")
-  // ];
+
   List<Todo> _todos = [];
   final IDataSource _datasource = Get.find<IDataSource>();
   UnmodifiableListView<Todo> get todos => UnmodifiableListView(_todos);
